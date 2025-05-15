@@ -1,0 +1,13 @@
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+h1, h2 {
+    color: #343a40;
+}
+.table thead th {
+    background-color: #343a40;
+    color: white;
+}
