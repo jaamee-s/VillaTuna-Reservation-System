@@ -1,102 +1,87 @@
 <?php
-include_once('../functions/db.php');
-include_once('../functions/auth.php');
+session_start();
 
-if (!isAdminLoggedIn()) {
-    redirect('../index.php');
+if (!isset($_SESSION['user']) || $_SESSION['user'] === 'admin') {
+  header("Location: ../index2.php");
+  exit();
 }
-
-// Fetch summary stats
-$totalCustomers = $conn->query("SELECT COUNT(*) AS total FROM Customers")->fetch_assoc()['total'];
-$totalReservations = $conn->query("SELECT COUNT(*) AS total FROM Reservations")->fetch_assoc()['total'];
-$totalTables = $conn->query("SELECT COUNT(*) AS total FROM RestaurantTables")->fetch_assoc()['total'];
-
-// Fetch latest 5 reservations
-$reservations = $conn->query("
-    SELECT r.*, c.full_name, t.table_number 
-    FROM Reservations r
-    JOIN Customers c ON r.customer_id = c.customer_id
-    JOIN RestaurantTables t ON r.table_id = t.table_id
-    ORDER BY reservation_date DESC, reservation_time DESC
-    LIMIT 5
-");
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard - Villatuna</title>
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/css/style.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Villatuna | Dashboard</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>body {
+      background: linear-gradient(to right, rgb(2, 4, 3), rgb(204, 189, 17));
+      font-family: 'Poppins', sans-serif;
+    }
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+    .btn-primary {
+      background-color: #009688;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #00796b;
+    }h2 {
+    color: white;
+    }p {
+    color: white;
+
+    }
+  
+
+    
+    </style>
+  
 </head>
 <body>
-  <main class="container my-5">
-    <h1 class="mb-4">🍽️ Villatuna Admin Dashboard</h1>
 
-    <div class="row mb-4">
-      <div class="col-md-4">
-        <div class="card text-bg-primary mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Total Customers</h5>
-            <p class="card-text fs-2"><?= $totalCustomers ?></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card text-bg-success mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Total Reservations</h5>
-            <p class="card-text fs-2"><?= $totalReservations ?></p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card text-bg-warning mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Total Tables</h5>
-            <p class="card-text fs-2"><?= $totalTables ?></p>
-          </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Villatuna Dashboard</a>
+    <div class="d-flex">
+      <a href="../logout.php" class="btn btn-outline-light" onclick="return confirmLogout();">Logout</a>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h2>Welcome, <?php echo htmlspecialchars($_SESSION['user']); ?>!</h2>
+  <p class="lead">Here you can manage your reservations and tables.</p>
+  
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card bg-primary text-white mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Reservations</h5>
+          <a href="reservations.php" class="btn btn-light">View Reservations</a>
         </div>
       </div>
     </div>
-
-    <h3 class="mb-3">📋 Latest Reservations</h3>
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered">
-        <thead class="table-dark">
-          <tr>
-            <th>Customer</th>
-            <th>Table</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Guests</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php while ($row = $reservations->fetch_assoc()): ?>
-            <tr>
-              <td><?= htmlspecialchars($row['full_name']) ?></td>
-              <td><?= htmlspecialchars($row['table_number']) ?></td>
-              <td><?= htmlspecialchars($row['reservation_date']) ?></td>
-              <td><?= htmlspecialchars($row['reservation_time']) ?></td>
-              <td><?= htmlspecialchars($row['num_guests']) ?></td>
-              <td><span class="badge bg-<?= $row['status'] === 'Booked' ? 'success' : ($row['status'] === 'Cancelled' ? 'danger' : 'secondary') ?>">
-                <?= $row['status'] ?>
-              </span></td>
-            </tr>
-          <?php endwhile; ?>
-        </tbody>
-      </table>
+    <div class="col-md-6">
+      <div class="card bg-success text-white mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Tables</h5>
+          <a href="tables.php" class="btn btn-light">View Tables</a>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <div class="mt-4">
-      <a href="logout.php" class="btn btn-outline-danger">Logout</a>
-    </div>
-  </main>
+<script>
+function confirmLogout() {
+  return confirm("Are you sure you want to logout?");
+}
+</script>
 
-  <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
