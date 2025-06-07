@@ -3,7 +3,7 @@ include_once('../functions/db.php');
 include_once('../functions/auth.php');
 
 if (!isAdminLoggedIn()) {
-    redirect('../index.php');
+    redirect('../index2.php');
 }
 
 // Fetch all tables
