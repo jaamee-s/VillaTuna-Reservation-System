@@ -14,7 +14,8 @@ error_reporting(E_ALL);
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Villatuna Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>body {
+  <style>
+    body {
       background: linear-gradient(to right, rgb(2, 4, 3), rgb(204, 189, 17));
       font-family: 'Poppins', sans-serif;
     }
@@ -28,14 +29,18 @@ error_reporting(E_ALL);
     }
     .btn-primary:hover {
       background-color:rgb(204, 189, 17);
-    }</style>
+    }
+    h4 {
+      color: rgb(205, 198, 114);
+    }
+  </style>
 </head>
 <body>
   <div class="container d-flex align-items-center justify-content-center min-vh-100">
     <div class="col-md-6 col-lg-4">
       <div class="text-center mb-4">
         <img src="https://villatuna.com/wp-content/uploads/2023/07/logo-transparent.png" width="380" height="100" alt="Logo">
-        <h4 class="mt-2">VillaTuna Table Reservation</h4>
+        <h4 class="mt-2">Table Reservation</h4>
       </div>
       <div class="card p-4">
         <h5 class="text-center mb-3">Login</h5>
@@ -75,6 +80,7 @@ if (isset($_POST["submit"])) {
     if ($password === $row['password']) {
       session_regenerate_id(true);
       $_SESSION['user'] = $row['username'];
+      $_SESSION['customer_id'] = $row['customer_id']; // ✅ ADD THIS
 
       if ($row['username'] === 'admin') {
         header("Location: public/admin_dashboard.php");

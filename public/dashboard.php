@@ -62,7 +62,8 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] === 'admin') {
       <div class="card bg-primary text-white mb-3">
         <div class="card-body">
           <h5 class="card-title">Reservations</h5>
-          <a href="reservations.php" class="btn btn-light">View Reservations</a>
+          <a href="reservations.php" class="btn btn-light">Make a Reservations</a>
+          <a href="view_reservations.php" class="btn btn-light">View Reservations</a>
         </div>
       </div>
     </div>
@@ -70,6 +71,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] === 'admin') {
       <div class="card bg-success text-white mb-3">
         <div class="card-body">
           <h5 class="card-title">Tables</h5>
+          <a href="tables.php" class="btn btn-light">Choose Tables</a>
           <a href="tables.php" class="btn btn-light">View Tables</a>
         </div>
       </div>
