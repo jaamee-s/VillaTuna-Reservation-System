@@ -19,6 +19,32 @@ $result = $conn->query($sql);
   <title>Choose a Table</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+ <style>
+    body {
+      background: linear-gradient(to right, rgb(2, 4, 3), rgb(204, 189, 17));
+      font-family: 'Poppins', sans-serif;
+    }
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+    .btn-primary {
+      background-color:rgb(204, 189, 17);
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color:rgb(204, 189, 17);
+    }
+    h4 {
+      color: rgb(205, 198, 114);
+    }
+    h2, p {
+      color: white;
+    }
+    label, p {
+      color: white;
+    }
+  </style>
 <body class="bg-light">
   <div class="container mt-5">
     <h2 class="mb-4">Choose a Table</h2>
