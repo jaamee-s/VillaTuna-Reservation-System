@@ -13,9 +13,9 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Villatuna | Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/style.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>body {
+  <style>
+    body {
       background: linear-gradient(to right, rgb(2, 4, 3), rgb(204, 189, 17));
       font-family: 'Poppins', sans-serif;
     }
@@ -30,14 +30,10 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
     .btn-primary:hover {
       background-color: #00796b;
     }
-    h2 {
-    color: white;
-    }p {
-    color: white;
+    h2, p {
+      color: white;
     }
-    
-    
-    </style>
+  </style>
 </head>
 <body>
 
@@ -61,7 +57,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
         <div class="card-body">
           <h5 class="card-title">Reservations</h5>
           <p class="card-text">View and manage customer reservations.</p>
-          <a href="reservations.php" class="btn btn-light">Go</a>
+          <a href="admin_reservations.php" class="btn btn-light">Go</a>
         </div>
       </div>
     </div>
@@ -72,7 +68,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
         <div class="card-body">
           <h5 class="card-title">Tables</h5>
           <p class="card-text">Check and edit table information.</p>
-          <a href="tables.php" class="btn btn-light">Go</a>
+          <a href="admin_tables.php" class="btn btn-light">Go</a>
         </div>
       </div>
     </div>
@@ -83,7 +79,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] !== 'admin') {
         <div class="card-body">
           <h5 class="card-title">User Management</h5>
           <p class="card-text">Manage admin and staff accounts.</p>
-          <a href="users.php" class="btn btn-light">Go to Users</a>
+          <a href="admin_users.php" class="btn btn-light">Go to Users</a>
         </div>
       </div>
     </div>

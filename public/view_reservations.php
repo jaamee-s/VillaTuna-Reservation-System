@@ -11,7 +11,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user'] === 'admin') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_reservation_id'])) {
     $delete_id = intval($_POST['delete_reservation_id']);
 
-    // Optional: Check that this reservation belongs to the logged-in user before deleting for security
     $username = $_SESSION['user'];
     $sql = "SELECT customer_id FROM tbl_customers WHERE username = ?";
     $stmt = $conn->prepare($sql);
@@ -27,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_reservation_id
         $del_stmt->execute();
         $del_stmt->close();
     }
-    // Redirect to avoid resubmission
+
     header("Location: view_reservations.php");
     exit();
 }
@@ -42,7 +41,6 @@ $stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->bind_result($customer_id);
 if (!$stmt->fetch()) {
-    // No customer found
     $stmt->close();
     $conn->close();
     echo "No reservations found.";
@@ -50,8 +48,11 @@ if (!$stmt->fetch()) {
 }
 $stmt->close();
 
-// Fetch reservations for this customer, include reservation_id for deletion
-$sql = "SELECT reservation_id, reservation_date, reservation_time, table_id, staff_id FROM tbl_reservation WHERE customer_id = ? ORDER BY reservation_date DESC, reservation_time DESC";
+// Fetch reservations (with status) for this customer
+$sql = "SELECT reservation_id, reservation_date, reservation_time, table_id, staff_id, status 
+        FROM tbl_reservation 
+        WHERE customer_id = ? 
+        ORDER BY reservation_date DESC, reservation_time DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $customer_id);
 $stmt->execute();
@@ -98,13 +99,14 @@ $result = $stmt->get_result();
   <a href="dashboard.php" class="btn btn-secondary mb-3">Back to Dashboard</a>
 
   <?php if ($result->num_rows > 0): ?>
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered bg-white">
       <thead>
         <tr>
           <th>Date</th>
           <th>Time</th>
           <th>Table ID</th>
           <th>Staff ID</th>
+          <th>Status</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -115,6 +117,15 @@ $result = $stmt->get_result();
             <td><?php echo htmlspecialchars($row['reservation_time']); ?></td>
             <td><?php echo htmlspecialchars($row['table_id']); ?></td>
             <td><?php echo htmlspecialchars($row['staff_id']); ?></td>
+            <td>
+              <?php
+                if ($row['status'] === 'canceled') {
+                  echo "<span class='badge bg-danger'>Canceled</span>";
+                } else {
+                  echo "<span class='badge bg-success'>Booked</span>";
+                }
+              ?>
+            </td>
             <td>
               <form method="POST" onsubmit="return confirm('Are you sure you want to cancel this reservation?');" style="display:inline;">
                 <input type="hidden" name="delete_reservation_id" value="<?php echo $row['reservation_id']; ?>">
