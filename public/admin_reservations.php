@@ -23,6 +23,26 @@ $result = $conn->query($sql);
   <title>Admin - Reservations</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+  <style>
+    body {
+      background: linear-gradient(to right, rgb(152, 164, 158), rgba(27, 26, 18, 0.9));
+      font-family: 'Poppins', sans-serif;
+    }
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+    .btn-primary {
+      background-color: #009688;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #00796b;
+    }
+    h2, p {
+      color: white;
+    }
+  </style>
 <body class="bg-light">
   <div class="container mt-4">
     <h2 class="mb-4">All Reservations</h2>

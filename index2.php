@@ -28,7 +28,7 @@ error_reporting(E_ALL);
       border: none;
     }
     .btn-primary:hover {
-      background-color:rgb(204, 189, 17);
+      background-color: #1e2d24;
     }
     h4 {
       color: rgb(205, 198, 114);
