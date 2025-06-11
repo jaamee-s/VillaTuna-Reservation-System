@@ -24,7 +24,7 @@ error_reporting(E_ALL);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
     .btn-primary {
-      background-color:rgb(204, 189, 17);
+      background-color: rgb(204, 189, 17);
       border: none;
     }
     .btn-primary:hover {
@@ -77,21 +77,30 @@ if (isset($_POST["submit"])) {
   if ($res->num_rows > 0) {
     $row = $res->fetch_assoc();
 
-    if ($password === $row['password']) {
-      session_regenerate_id(true);
-      $_SESSION['user'] = $row['username'];
-      $_SESSION['customer_id'] = $row['customer_id']; // ✅ ADD THIS
+    // ✅ Check if user is deactivated
+    if ($row['status'] === 'inactive') {
+      echo "<script>alert('Account is deactivated. Please contact admin.');</script>";
+    } else {
+      // 🔐 Validate password (plain match — change to password_verify if hashed)
+      if ($password === $row['password']) {
+        session_regenerate_id(true);
+        $_SESSION['user'] = $row['username'];
+        $_SESSION['customer_id'] = $row['customer_id'];
 
-      if ($row['username'] === 'admin') {
-        header("Location: public/admin_dashboard.php");
+        if ($row['username'] === 'admin') {
+          header("Location: public/admin_dashboard.php");
+        } else {
+          header("Location: public/dashboard.php");
+        }
+        exit();
       } else {
-        header("Location: public/dashboard.php");
+        echo "<script>alert('Invalid username or password');</script>";
       }
-      exit();
     }
+  } else {
+    echo "<script>alert('Invalid username or password');</script>";
   }
 
-  echo "<script>alert('Invalid username or password');</script>";
   $stmt->close();
 }
 ?>
