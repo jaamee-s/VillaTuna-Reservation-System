@@ -29,6 +29,6 @@ function getCustomerName() {
 function logout() {
     session_unset();
     session_destroy();
-    redirect('../index.php'); // or modify for different logout target
+    redirect('../index2.php'); // or modify for different logout target
 }
 ?>
