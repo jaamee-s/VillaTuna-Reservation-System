@@ -72,7 +72,6 @@ $result = $conn->query("SELECT * FROM tbl_customers ORDER BY full_name ASC");
           <th>Phone</th>
           <th>Email</th>
           <th>Status</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -81,7 +80,7 @@ $result = $conn->query("SELECT * FROM tbl_customers ORDER BY full_name ASC");
           <td><?= $row['customer_id']; ?></td>
           <td><?= htmlspecialchars($row['full_name']); ?></td>
           <td><?= $row['username']; ?></td>
-          <td><?= $row['phone_number']; ?></td>
+        
           <td><?= $row['email']; ?></td>
           <td>
             <span class="badge <?= $row['status'] === 'inactive' ? 'badge-inactive' : 'badge-active' ?>">

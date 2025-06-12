@@ -9,12 +9,12 @@ error_reporting(E_ALL);
 if (isset($_POST['submit'])) {
   $full_name = trim($_POST['full_name']);
   $username = trim($_POST['username']);
-  $phone_number = trim($_POST['phone_number']);
   $email = trim($_POST['email']);
   $password = trim($_POST['password']);
+  $status = 'active'; // Optional, but explicit
 
-  $stmt = $conn->prepare("INSERT INTO tbl_customers (full_name, username, phone_number, email, password) VALUES (?, ?, ?, ?, ?)");
-  $stmt->bind_param("sssss", $full_name, $username, $phone_number, $email, $password);
+  $stmt = $conn->prepare("INSERT INTO tbl_customers (full_name, username, email, password, status) VALUES (?, ?, ?, ?, ?)");
+  $stmt->bind_param("sssss", $full_name, $username, $email, $password, $status);
 
   if ($stmt->execute()) {
     echo "<script>alert('Registration successful!'); window.location.href = 'index2.php';</script>";
@@ -32,7 +32,8 @@ if (isset($_POST['submit'])) {
   <meta charset="UTF-8">
   <title>Create Customer Account</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>body {
+  <style>
+    body {
       background: linear-gradient(to right, rgb(2, 4, 3), rgb(204, 189, 17));
       font-family: 'Poppins', sans-serif;
     }
@@ -41,19 +42,16 @@ if (isset($_POST['submit'])) {
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
     .btn-primary {
-      background-color:rgb(204, 189, 17);
+      background-color: rgb(204, 189, 17);
       border: none;
     }
     .btn-primary:hover {
-      background-color:rgb(204, 189, 17);
-    }h3 {
-      color: white;
-    }label {
+      background-color: rgb(204, 189, 17);
+    }
+    h3, label {
       color: white;
     }
-    
-    
-    </style>
+  </style>
 </head>
 <body>
   <div class="container mt-5">
@@ -66,10 +64,6 @@ if (isset($_POST['submit'])) {
       <div class="mb-3">
         <label class="form-label">Username</label>
         <input type="text" class="form-control" name="username" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Phone Number</label>
-        <input type="text" class="form-control" name="phone_number" required>
       </div>
       <div class="mb-3">
         <label class="form-label">Email</label>
